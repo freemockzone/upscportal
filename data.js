@@ -5,6 +5,8 @@ const CREDENTIALS = {
   Ankit: "12345",
   Anshul: "123",
   Jio: "789",
+  YaminArora: "YaminA008!",
+  Dhruvv: "Upsc@1234",
 };
 
 // --- TEST SERIES DATABASE ---
