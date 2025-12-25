@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UPSC Premium Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+    </style>
+
+    <script src="data.js"></script>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans w-full overflow-x-hidden">
+
+    <div id="loginScreen" class="fixed inset-0 bg-white z-[60] flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-md border border-gray-200 my-auto">
+            <div class="text-center mb-6 md:mb-8">
+                <h1
+                    class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
+                    UPSC Premium Portal</h1>
+                <p class="text-gray-600 text-sm md:text-base">Access Premium Test Series & Current Affairs</p>
+            </div>
+            <form id="loginForm" class="space-y-5 md:space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Student Name</label>
+                    <input type="text" id="studentName" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 outline-none"
+                        placeholder="Enter your full name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="username" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 outline-none"
+                        placeholder="Enter username">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="password" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 outline-none"
+                        placeholder="Enter password">
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-500 transform hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login
+                </button>
+            </form>
+            <p id="loginError"
+                class="text-red-500 text-sm mt-4 hidden text-center bg-red-50 p-2 rounded-lg border border-red-100">
+                Invalid username or password!</p>
+        </div>
+    </div>
+
+    <div id="mainApp" class="hidden min-h-screen flex flex-col w-full">
+
+        <nav id="navbar"
+            class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm transition-shadow duration-300 w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16 w-full">
+
+                    <div class="flex items-center flex-shrink-0 cursor-pointer max-w-[70%]" onclick="showHome()">
+                        <h1
+                            class="text-lg md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent truncate leading-tight">
+                            UPSC Premium Portal</h1>
+                    </div>
+
+                    <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                        <a href="#" onclick="showHome()"
+                            class="text-base font-medium text-gray-700 hover:text-primary transition-colors">Home</a>
+
+                        <div class="relative group">
+                            <button
+                                class="flex items-center space-x-1 text-base font-medium text-gray-700 hover:text-primary transition-colors focus:outline-none py-2">
+                                <span>Prelims</span> <i class="fas fa-chevron-down text-xs ml-1"></i>
+                            </button>
+                            <div
+                                class="absolute left-0 mt-0 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0">
+                                <a href="#" onclick="openSeriesPage(event, 'gs-score')"
+                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 rounded-t-xl border-b border-gray-100">GS
+                                    Score Prelims Test (25+)</a>
+                                <a href="#" onclick="openSeriesPage(event, 'next-ias')"
+                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 border-b border-gray-100">Next
+                                    IAS Prelims Test (26+)</a>
+                                <a href="#" onclick="openSeriesPage(event, 'vision-ias')"
+                                    class="block px-6 py-3 text-sm text-gray-700 bg-blue-50/50 hover:bg-blue-100 font-medium rounded-b-xl">Vision
+                                    IAS Prelims Test (35+)</a>
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <button
+                                class="flex items-center space-x-1 text-base font-medium text-gray-700 hover:text-primary transition-colors focus:outline-none py-2">
+                                <span>Mains</span> <i class="fas fa-chevron-down text-xs ml-1"></i>
+                            </button>
+                            <div
+                                class="absolute left-0 mt-0 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0">
+                                <a href="#"
+                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 rounded-xl">Vision IAS
+                                    Mains Test (15+)</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 md:space-x-4">
+                        <div id="userInfo"
+                            class="hidden md:flex items-center space-x-2 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">
+                            <i class="fas fa-user text-primary text-sm"></i>
+                            <span id="welcomeMsg"
+                                class="font-semibold text-primary text-sm truncate max-w-[80px]"></span>
+                            <button id="logoutBtn"
+                                class="ml-1 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                        <button id="mobileMenuBtn"
+                            class="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors focus:outline-none">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobileMenu"
+                class="md:hidden hidden bg-white border-t border-gray-200 absolute top-16 left-0 w-full shadow-lg h-[calc(100vh-4rem)] overflow-y-auto z-40 pb-20">
+                <div class="px-4 py-4 space-y-4">
+                    <div id="mobileUserInfo"
+                        class="flex items-center justify-between bg-blue-50 p-3 rounded-xl border border-blue-100">
+                        <span class="font-semibold text-primary text-sm flex items-center"><i
+                                class="fas fa-user mr-2"></i> User</span>
+                        <button onclick="document.getElementById('logoutBtn').click()"
+                            class="text-xs bg-red-500 text-white px-3 py-1.5 rounded shadow-sm">Logout</button>
+                    </div>
+
+                    <a href="#" onclick="showHome()"
+                        class="block py-3 px-4 rounded-xl hover:bg-blue-50 font-medium text-gray-800">Home</a>
+
+                    <details class="group">
+                        <summary
+                            class="py-3 px-4 cursor-pointer font-medium flex items-center justify-between rounded-xl hover:bg-blue-50 text-gray-800 select-none">
+                            Prelims Test Series <i
+                                class="fas fa-chevron-down transition-transform group-open:rotate-180 text-sm"></i>
+                        </summary>
+                        <div class="mt-1 ml-2 space-y-1 border-l-2 border-gray-100 pl-2">
+                            <a href="#" onclick="openSeriesPage(event, 'gs-score')"
+                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">GS
+                                Score Prelims</a>
+                            <a href="#" onclick="openSeriesPage(event, 'next-ias')"
+                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">Next
+                                IAS Prelims</a>
+                            <a href="#" onclick="openSeriesPage(event, 'vision-ias')"
+                                class="block py-2.5 px-4 text-sm font-semibold text-primary bg-blue-50 rounded-r-lg">Vision
+                                IAS Prelims</a>
+                        </div>
+                    </details>
+
+                    <details class="group">
+                        <summary
+                            class="py-3 px-4 cursor-pointer font-medium flex items-center justify-between rounded-xl hover:bg-blue-50 text-gray-800 select-none">
+                            Mains Test Series <i
+                                class="fas fa-chevron-down transition-transform group-open:rotate-180 text-sm"></i>
+                        </summary>
+                        <div class="mt-1 ml-2 space-y-1 border-l-2 border-gray-100 pl-2">
+                            <a href="#"
+                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">Vision
+                                IAS Mains</a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </nav>
+
+        <div id="contentWrapper" class="flex-grow w-full">
+
+            <div id="homePage" class="w-full">
+                <section
+                    class="relative pt-8 pb-12 md:pt-24 md:pb-20 bg-gradient-to-b from-blue-600 to-primary overflow-hidden">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="text-center mb-8 md:mb-12">
+                            <h2 class="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">Welcome to
+                                Premium UPSC Preparation</h2>
+                            <p class="text-sm md:text-xl text-blue-100 max-w-2xl mx-auto px-2">Access 200+ Premium Test
+                                Series, Monthly Magazines & Current Affairs</p>
+                        </div>
+
+                        <div
+                            class="max-w-5xl mx-auto relative h-56 md:h-80 lg:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20">
+                            <div id="carousel"
+                                class="w-full h-full flex transition-transform duration-1000 ease-in-out transform translate-x-0">
+                                <div class="flex w-[300%] h-full">
+                                    <div class="w-1/3 flex-shrink-0 relative">
+                                        <img src="1.jpg" alt="Prelims"
+                                            class="absolute inset-0 w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                            <div class="text-center text-white p-2">
+                                                <i class="fas fa-file-alt text-4xl md:text-6xl mb-2 md:mb-4"></i>
+                                                <h3 class="text-xl md:text-3xl font-bold">Prelims Series</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-1/3 flex-shrink-0 relative">
+                                        <img src="2.jpg" alt="Mains"
+                                            class="absolute inset-0 w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                            <div class="text-center text-white p-2">
+                                                <i class="fas fa-edit text-4xl md:text-6xl mb-2 md:mb-4"></i>
+                                                <h3 class="text-xl md:text-3xl font-bold">Mains Series</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-1/3 flex-shrink-0 relative">
+                                        <img src="piro.jpg" alt="CA"
+                                            class="absolute inset-0 w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                            <div class="text-center text-white p-2">
+                                                <i class="fas fa-newspaper text-4xl md:text-6xl mb-2 md:mb-4"></i>
+                                                <h3 class="text-xl md:text-3xl font-bold">Current Affairs</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="prevBtn"
+                                class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 md:p-4 rounded-full"><i
+                                    class="fas fa-chevron-left"></i></button>
+                            <button id="nextBtn"
+                                class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 md:p-4 rounded-full"><i
+                                    class="fas fa-chevron-right"></i></button>
+                            <div id="carouselDots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="py-12 md:py-20 bg-white">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="text-center p-6 rounded-2xl bg-blue-50 border border-blue-100">
+                                <i class="fas fa-brain text-3xl text-primary mb-4 block"></i>
+                                <h3 class="text-xl font-bold mb-2">Prelims</h3>
+                                <p class="text-gray-600 mb-4 text-sm">200+ tests from Top Institutes</p>
+                                <button onclick="openSeriesPage(event, 'vision-ias')"
+                                    class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-semibold w-full">View
+                                    Vision IAS</button>
+                            </div>
+                            <div class="text-center p-6 rounded-2xl bg-emerald-50 border border-emerald-100">
+                                <i class="fas fa-pen-fancy text-3xl text-emerald-600 mb-4 block"></i>
+                                <h3 class="text-xl font-bold mb-2">Mains</h3>
+                                <p class="text-gray-600 mb-4 text-sm">Answer writing & evaluation</p>
+                                <button
+                                    class="bg-emerald-600 text-white px-6 py-2 rounded-lg text-sm font-semibold w-full">View</button>
+                            </div>
+                            <div class="text-center p-6 rounded-2xl bg-purple-50 border border-purple-100">
+                                <i class="fas fa-book-open text-3xl text-purple-600 mb-4 block"></i>
+                                <h3 class="text-xl font-bold mb-2">Magazines</h3>
+                                <p class="text-gray-600 mb-4 text-sm">Yojana, Kurukshetra & More</p>
+                                <button
+                                    class="bg-purple-600 text-white px-6 py-2 rounded-lg text-sm font-semibold w-full">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="genericSeriesPage" class="hidden pt-6 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+                <div class="mb-6 md:mb-8">
+                    <button onclick="showHome()"
+                        class="flex items-center text-gray-500 hover:text-primary mb-4 transition-colors text-sm font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                    </button>
+                    <h2 id="seriesTitle"
+                        class="text-2xl md:text-3xl font-bold text-gray-800 border-l-4 border-primary pl-4 leading-tight">
+                        Test Series Title</h2>
+                    <p id="seriesDesc" class="text-gray-600 mt-2 pl-5 text-sm md:text-base">Description</p>
+                </div>
+
+                <div id="seriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="bg-gray-900 text-white py-8 md:py-12 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-gray-400 text-xs md:text-sm">&copy; 2025 UPSC Premium Portal. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <button id="backToTop"
+        class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg z-30 hidden flex items-center justify-center">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // --- DOM Elements ---
+        const loginScreen = document.getElementById('loginScreen');
+        const mainApp = document.getElementById('mainApp');
+        const homePage = document.getElementById('homePage');
+        const genericSeriesPage = document.getElementById('genericSeriesPage');
+        const seriesTitle = document.getElementById('seriesTitle');
+        const seriesDesc = document.getElementById('seriesDesc');
+        const seriesGrid = document.getElementById('seriesGrid');
+
+        const loginForm = document.getElementById('loginForm');
+        const studentNameInput = document.getElementById('studentName');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('loginError');
+        const welcomeMsg = document.getElementById('welcomeMsg');
+        const userInfo = document.getElementById('userInfo');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const backToTop = document.getElementById('backToTop');
+        const navbar = document.getElementById('navbar');
+        const mobileUserInfo = document.getElementById('mobileUserInfo');
+
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        // --- NAVIGATION FUNCTIONS ---
+
+        function showHome() {
+            homePage.classList.remove('hidden');
+            genericSeriesPage.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            mobileMenu.classList.add('hidden');
+            resetMenuIcon();
+        }
+
+        function openSeriesPage(event, seriesKey) {
+            if (event) event.preventDefault();
+
+            // Check if DB exists
+            if (typeof testSeriesDatabase === 'undefined' || !testSeriesDatabase[seriesKey]) {
+                console.error("Database not loaded or key missing");
+                return;
+            }
+
+            const data = testSeriesDatabase[seriesKey];
+
+            seriesTitle.textContent = data.title;
+            seriesDesc.textContent = data.description;
+            renderTestCards(data.tests);
+
+            homePage.classList.add('hidden');
+            genericSeriesPage.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            mobileMenu.classList.add('hidden');
+            resetMenuIcon();
+        }
+
+        function renderTestCards(testsArray) {
+            seriesGrid.innerHTML = '';
+            testsArray.forEach(test => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col justify-between";
+
+                const linkUrl = test.link || '#';
+                const author = test.author || 'Admin';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-blue-50 text-primary text-[10px] md:text-xs font-bold px-2 py-1 rounded-full uppercase tracking-wider">${test.id}</span>
+                            <span class="text-gray-400 text-[10px] md:text-xs"><i class="far fa-calendar-alt mr-1"></i> ${test.date}</span>
+                        </div>
+                        <h3 class="text-base md:text-lg font-bold text-gray-800 mb-2 leading-snug">${test.title}</h3>
+                        <p class="text-gray-500 text-xs mb-4">By: ${author}</p>
+                    </div>
+                    <a href="${linkUrl}" class="w-full block text-center bg-gradient-to-r from-primary to-secondary text-white text-sm font-semibold py-2.5 rounded-lg hover:shadow-lg active:scale-95 transition-all">
+                        Download PDF <i class="fas fa-download ml-2"></i>
+                    </a>
+                `;
+                seriesGrid.appendChild(card);
+            });
+        }
+
+        function resetMenuIcon() {
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+
+        // --- AUTH & INITIALIZATION ---
+
+        function checkLoginState() {
+            const studentName = localStorage.getItem('studentName');
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+            if (isLoggedIn && studentName) {
+                loginScreen.classList.add('hidden');
+                mainApp.classList.remove('hidden');
+                welcomeMsg.textContent = studentName;
+                if (mobileUserInfo) {
+                    mobileUserInfo.querySelector('span').innerHTML = `<i class="fas fa-user mr-2"></i> ${studentName}`;
+                }
+                userInfo.classList.remove('hidden');
+            }
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            const studentName = studentNameInput.value.trim();
+
+            // Check if CREDENTIALS exists (from external data.js)
+            if (typeof CREDENTIALS === 'undefined') {
+                alert("Database error: CREDENTIALS not loaded.");
+                return;
+            }
+
+            // --- CHANGED LOGIC FOR NEW CREDENTIALS STRUCTURE ---
+            let isAuthenticated = false;
+
+            // Check if username exists in CREDENTIALS and password matches
+            if (CREDENTIALS.hasOwnProperty(username) && CREDENTIALS[username] === password) {
+                isAuthenticated = true;
+            }
+
+            if (isAuthenticated && studentName) {
+                localStorage.setItem('studentName', studentName);
+                localStorage.setItem('isLoggedIn', 'true');
+                loginScreen.classList.add('hidden');
+                mainApp.classList.remove('hidden');
+                welcomeMsg.textContent = studentName;
+                if (mobileUserInfo) {
+                    mobileUserInfo.querySelector('span').innerHTML = `<i class="fas fa-user mr-2"></i> ${studentName}`;
+                }
+                userInfo.classList.remove('hidden');
+            } else {
+                loginError.classList.remove('hidden');
+                setTimeout(() => loginError.classList.add('hidden'), 3000);
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('studentName');
+            localStorage.removeItem('isLoggedIn');
+            loginScreen.classList.remove('hidden');
+            mainApp.classList.add('hidden');
+            userInfo.classList.add('hidden');
+            mobileMenu.classList.add('hidden');
+            loginForm.reset();
+            showHome();
+        });
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+
+        // Carousel
+        const carousel = document.getElementById('carousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('carouselDots');
+
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = `w-2 h-2 md:w-3 md:h-3 rounded-full cursor-pointer transition-all duration-300 ${i === 0 ? 'bg-white w-6 md:w-8' : 'bg-white/50'}`;
+            dot.addEventListener('click', () => { currentSlide = i; updateCarousel(); });
+            dotsContainer.appendChild(dot);
+        }
+
+        function updateCarousel() {
+            const translateX = -currentSlide * (100 / 3);
+            carousel.style.transform = `translateX(${translateX}%)`;
+            const dots = dotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].classList.remove('bg-white/50');
+                    dots[i].classList.add('bg-white', 'w-6', 'md:w-8');
+                } else {
+                    dots[i].classList.add('bg-white/50');
+                    dots[i].classList.remove('bg-white', 'w-6', 'md:w-8');
+                }
+            }
+        }
+
+        function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateCarousel(); }
+        function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateCarousel(); }
+
+        prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+        nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+
+        let timer = setInterval(nextSlide, 4000);
+        function resetTimer() { clearInterval(timer); timer = setInterval(nextSlide, 4000); }
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carouselContainer = carousel.parentElement;
+        carouselContainer.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+        carouselContainer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+            resetTimer();
+        });
+
+        // Scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) backToTop.classList.remove('hidden');
+            else backToTop.classList.add('hidden');
+        });
+
+        backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        // Init
+        checkLoginState();
+        updateCarousel();
+    </script>
+</body>
+
+</html>
