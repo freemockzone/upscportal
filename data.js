@@ -16,6 +16,12 @@ const testSeriesDatabase = {
     description: "Download latest tests with solutions",
     tests: [
       {
+        id: 19,
+        date: "25th Dec 2025",
+        title: "NEXT IAS Prelims 2026 Test 19",
+        link: "NEXT-IAS-Prelims-2026-Test-19-With-Question-and-answers .pdf",
+      },
+      {
         id: 18,
         date: "24th Dec 2025",
         title: "NEXT IAS Prelims 2026 Test 18",
@@ -191,6 +197,44 @@ const testSeriesDatabase = {
       },
     ],
   },
+  "only-ias": {
+    title: "PW ONLY IAS Prelims 2026 Test Series",
+    description: "All India Mock Tests & Polity Modular Tests",
+    tests: [
+      {
+        id: "3",
+        date: "25th Dec 2025",
+        title: "PW Only IAS Prelims 2026 Test 3 With Solution PDF",
+        link: "PW-Only-IAS-Prelims-2026-Test-3-With-Solution-PDF.pdf",
+      },
+      {
+        id: "2",
+        date: "25th Dec 2025",
+        title: "PW Only IAS Prelims 2026 Test 2 With Solution PDF",
+        link: "PW-Only-IAS-Prelims-2026-Test-2-With-Solution-PDF.pdf",
+      },
+      {
+        id: "1",
+        date: "25th Dec 2025",
+        title: "PW Only IAS Prelims 2026 Test 1 With Solution PDF",
+        link: "PW-Only-IAS-Prelims-2026-Test-1-With-Solution-PDF.pdf",
+      },
+    ],
+  },
+
+  "shankar-ias": {
+    title: "Shankar IAS Prelims 2026 Test Series",
+    description: "All India Mock Tests & Polity Modular Tests",
+    tests: [
+      {
+        id: "1",
+        date: "25th Dec 2025",
+        title: "Shankar IAS Prelims 2026 Test 1 With Solution PDF",
+        link: "Shankar-IAS-Prelims-2026-Test-1-With-Solution-PDF.pdf",
+      },
+    ],
+  },
+
   "vision-ias": {
     title: "Vision IAS Prelims 2026 Test Series",
     description: "Comprehensive Test Series (General Studies & CSAT)",
