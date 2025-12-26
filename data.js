@@ -243,6 +243,25 @@ const testSeriesDatabase = {
     ],
   },
 
+  "vajiram-ias": {
+    title: "Shankar IAS Prelims 2026 Test Series",
+    description: "All India Mock Tests & Polity Modular Tests",
+    tests: [
+      {
+        id: "2",
+        date: "26th Dec 2025",
+        title: "Vajiram & Ravi Camp Prelims 2026 Test 2 With Solutions Pdf",
+        link: "Vajiram-and-Ravi-Camp-Prelims-2026-Polity-Test-2-With-Solutions-Pdf.pdf",
+      },
+      {
+        id: "1",
+        date: "26th Dec 2025",
+        title: "Vajiram & Ravi Camp Prelims 2026 Test 1 With Solutions Pdf",
+        link: "Vajiram-and-Ravi-Camp-Prelims-2026-Test-1-With-Solutions-Pdf.pdf",
+      },
+    ],
+  },
+
   "vision-ias": {
     title: "Vision IAS Prelims 2026 Test Series",
     description: "Comprehensive Test Series (General Studies & CSAT)",
