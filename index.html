@@ -1,24 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UPSC Premium Portal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
                     colors: {
-                        primary: '#1e40af',
-                        secondary: '#3b82f6',
+                        primary: '#d97706', /* Amber 600 */
+                        secondary: '#b45309', /* Amber 700 */
+                        dark: '#0f172a', /* Slate 900 */
+                        darker: '#020617', /* Slate 950 */
+                        surface: '#1e293b', /* Slate 800 */
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
         }
     </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
     <style>
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -30,123 +54,202 @@
         }
 
         body {
-            overflow-x: hidden;
-            width: 100%;
+            background-color: #0f172a;
+            color: #f8fafc;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(217, 119, 6, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(30, 64, 175, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Glass Effect utilities */
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
     </style>
 
     <script src="data.js"></script>
 </head>
 
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans w-full overflow-x-hidden">
+<body class="min-h-screen font-sans antialiased selection:bg-primary selection:text-white">
 
-    <div id="loginScreen" class="fixed inset-0 bg-white z-[60] flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-md border border-gray-200 my-auto">
-            <div class="text-center mb-6 md:mb-8">
-                <h1
-                    class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
-                    UPSC Premium Portal</h1>
-                <p class="text-gray-600 text-sm md:text-base">Access Premium Test Series & Current Affairs</p>
+    <div id="loginScreen"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto bg-darker/90 backdrop-blur-sm transition-all duration-500">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none">
+        </div>
+
+        <div
+            class="glass w-full max-w-md rounded-2xl p-8 md:p-10 relative z-10 shadow-2xl animate-fade-in border border-white/10">
+            <div class="text-center mb-10">
+                <div
+                    class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-4 ring-1 ring-primary/20">
+                    <i class="fas fa-university text-2xl"></i>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-serif font-bold text-white mb-2">
+                    UPSC <span class="text-primary">Portal</span>
+                </h1>
+                <p class="text-gray-400 text-sm tracking-wide uppercase">Premium Civil Services Suite</p>
             </div>
-            <form id="loginForm" class="space-y-5 md:space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Student Name</label>
-                    <input type="text" id="studentName" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 outline-none"
-                        placeholder="Enter your full name">
+
+            <form id="loginForm" class="space-y-6">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Candidate
+                        Name</label>
+                    <div class="relative group">
+                        <i
+                            class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors"></i>
+                        <input type="text" id="studentName" required
+                            class="w-full bg-dark/50 text-white pl-12 pr-4 py-3.5 rounded-xl border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-600"
+                            placeholder="Full Name">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                    <input type="text" id="username" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 outline-none"
-                        placeholder="Enter username">
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Username</label>
+                    <div class="relative group">
+                        <i
+                            class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors"></i>
+                        <input type="text" id="username" required
+                            class="w-full bg-dark/50 text-white pl-12 pr-4 py-3.5 rounded-xl border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-600"
+                            placeholder="Enter username">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <input type="password" id="password" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 outline-none"
-                        placeholder="Enter password">
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">Password</label>
+                    <div class="relative group">
+                        <i
+                            class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors"></i>
+                        <input type="password" id="password" required
+                            class="w-full bg-dark/50 text-white pl-12 pr-4 py-3.5 rounded-xl border border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder-gray-600"
+                            placeholder="••••••••">
+                    </div>
                 </div>
+
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-500 transform hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg">
-                    <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    class="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 mt-4">
+                    Access Portal <i class="fas fa-arrow-right ml-2 text-sm"></i>
                 </button>
             </form>
+
             <p id="loginError"
-                class="text-red-500 text-sm mt-4 hidden text-center bg-red-50 p-2 rounded-lg border border-red-100">
-                Invalid username or password!</p>
+                class="mt-6 hidden text-center text-sm text-red-400 bg-red-400/10 py-2 rounded-lg border border-red-400/20">
+                <i class="fas fa-exclamation-circle mr-1"></i> Invalid credentials
+            </p>
+        </div>
+
+        <div class="fixed bottom-6 text-gray-500 text-xs">
+            &copy; 2025 UPSC Premium Portal
         </div>
     </div>
 
-    <div id="mainApp" class="hidden min-h-screen flex flex-col w-full">
+    <div id="mainApp" class="hidden min-h-screen flex flex-col w-full relative">
 
-        <nav id="navbar"
-            class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm transition-shadow duration-300 w-full">
+        <nav id="navbar" class="glass sticky top-0 z-50 w-full border-b border-white/5">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16 w-full">
+                <div class="flex justify-between items-center h-20 w-full">
 
-                    <div class="flex items-center flex-shrink-0 cursor-pointer max-w-[70%]" onclick="showHome()">
-                        <h1
-                            class="text-lg md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent truncate leading-tight">
-                            UPSC Premium Portal</h1>
+                    <div class="flex items-center flex-shrink-0 cursor-pointer" onclick="showHome()">
+                        <div
+                            class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mr-3 shadow-lg shadow-primary/20">
+                            <span class="text-white font-serif font-bold text-lg">U</span>
+                        </div>
+                        <h1 class="text-xl md:text-2xl font-serif font-bold text-gray-100 tracking-tight">
+                            UPSC <span class="text-primary">Premium</span>
+                        </h1>
                     </div>
 
-                    <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <div class="hidden md:flex items-center space-x-8">
                         <a href="#" onclick="showHome()"
-                            class="text-base font-medium text-gray-700 hover:text-primary transition-colors">Home</a>
+                            class="text-sm font-medium text-gray-300 hover:text-white transition-colors relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-primary after:left-0 after:-bottom-1 hover:after:w-full after:transition-all">Home</a>
 
-                        <div class="relative group">
+                        <div class="relative group h-full flex items-center">
                             <button
-                                class="flex items-center space-x-1 text-base font-medium text-gray-700 hover:text-primary transition-colors focus:outline-none py-2">
-                                <span>Prelims</span> <i class="fas fa-chevron-down text-xs ml-1"></i>
+                                class="flex items-center space-x-1 text-sm font-medium text-gray-300 hover:text-white transition-colors focus:outline-none py-2">
+                                <span>Prelims Series</span> <i
+                                    class="fas fa-chevron-down text-[10px] ml-1 opacity-50"></i>
                             </button>
                             <div
-                                class="absolute left-0 mt-0 w-72 bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0">
-                                <a href="#" onclick="openSeriesPage(event, 'gs-score')"
-                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 rounded-t-xl border-b border-gray-100">GS
-                                    Score Prelims Test (25+)</a>
-                                <a href="#" onclick="openSeriesPage(event, 'next-ias')"
-                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 border-b border-gray-100">Next
-                                    IAS Prelims Test (26+)</a>
-                                <a href="#" onclick="openSeriesPage(event, 'only-ias')"
-                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 rounded-t-xl border-b border-gray-100">Only
-                                    IAS Prelims Test (10+)</a>
-                                <a href="#" onclick="openSeriesPage(event, 'shankar-ias')"
-                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 rounded-t-xl border-b border-gray-100">Shankar
-                                    IAS Prelims Test (10+)</a>
-                                <a href="#" onclick="openSeriesPage(event, 'vision-ias')"
-                                    class="block px-6 py-3 text-sm text-gray-700 bg-blue-50/50 hover:bg-blue-100 font-medium rounded-b-xl">Vision
-                                    IAS Prelims Test (35+)</a>
+                                class="absolute left-0 top-14 w-80 glass-card rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden ring-1 ring-white/10">
+                                <div class="p-2 space-y-1">
+                                    <a href="#" onclick="openSeriesPage(event, 'gs-score')"
+                                        class="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 rounded-lg hover:text-primary transition-colors">
+                                        <i class="fas fa-chart-line w-5 text-gray-500"></i> GS Score <span
+                                            class="text-xs bg-primary/20 text-primary px-1.5 py-0.5 rounded ml-2">25+</span>
+                                    </a>
+                                    <a href="#" onclick="openSeriesPage(event, 'next-ias')"
+                                        class="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 rounded-lg hover:text-primary transition-colors">
+                                        <i class="fas fa-book-reader w-5 text-gray-500"></i> Next IAS <span
+                                            class="text-xs bg-primary/20 text-primary px-1.5 py-0.5 rounded ml-2">26+</span>
+                                    </a>
+                                    <a href="#" onclick="openSeriesPage(event, 'only-ias')"
+                                        class="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 rounded-lg hover:text-primary transition-colors">
+                                        <i class="fas fa-atom w-5 text-gray-500"></i> Only IAS
+                                    </a>
+                                    <a href="#" onclick="openSeriesPage(event, 'shankar-ias')"
+                                        class="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 rounded-lg hover:text-primary transition-colors">
+                                        <i class="fas fa-leaf w-5 text-gray-500"></i> Shankar IAS
+                                    </a>
+                                    <div class="h-px bg-white/10 my-1"></div>
+                                    <a href="#" onclick="openSeriesPage(event, 'vision-ias')"
+                                        class="block px-4 py-3 text-sm font-semibold text-primary bg-primary/10 rounded-lg hover:bg-primary/20">
+                                        <i class="fas fa-eye w-5"></i> Vision IAS <span
+                                            class="float-right text-xs opacity-70">Most Popular</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="relative group">
+                        <div class="relative group h-full flex items-center">
                             <button
-                                class="flex items-center space-x-1 text-base font-medium text-gray-700 hover:text-primary transition-colors focus:outline-none py-2">
-                                <span>Mains</span> <i class="fas fa-chevron-down text-xs ml-1"></i>
+                                class="flex items-center space-x-1 text-sm font-medium text-gray-300 hover:text-white transition-colors focus:outline-none py-2">
+                                <span>Mains Series</span> <i
+                                    class="fas fa-chevron-down text-[10px] ml-1 opacity-50"></i>
                             </button>
                             <div
-                                class="absolute left-0 mt-0 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0">
-                                <a href="#"
-                                    class="block px-6 py-3 text-sm text-gray-700 hover:bg-blue-50 rounded-xl">Vision IAS
-                                    Mains Test (15+)</a>
+                                class="absolute left-0 top-14 w-64 glass-card rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden ring-1 ring-white/10">
+                                <div class="p-2">
+                                    <a href="#"
+                                        class="block px-4 py-3 text-sm text-gray-300 hover:bg-white/5 rounded-lg hover:text-primary transition-colors">
+                                        <i class="fas fa-pen-nib w-5 text-gray-500"></i> Vision IAS Mains
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center space-x-2 md:space-x-4">
-                        <div id="userInfo"
-                            class="hidden md:flex items-center space-x-2 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">
-                            <i class="fas fa-user text-primary text-sm"></i>
-                            <span id="welcomeMsg"
-                                class="font-semibold text-primary text-sm truncate max-w-[80px]"></span>
-                            <button id="logoutBtn"
-                                class="ml-1 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
+                    <div class="flex items-center space-x-3 md:space-x-6">
+                        <div class="hidden md:block">
+                            <div id="userInfo" class="hidden flex items-center pl-4 border-l border-white/10">
+                                <div class="text-right mr-3">
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Welcome</p>
+                                    <p id="welcomeMsg" class="text-sm font-semibold text-white truncate max-w-[100px]">
+                                    </p>
+                                </div>
+                                <div
+                                    class="h-9 w-9 rounded-full bg-surface border border-white/10 flex items-center justify-center text-primary">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <button id="logoutBtn" title="Logout"
+                                    class="ml-4 text-gray-500 hover:text-red-400 transition-colors">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </div>
                         </div>
+
                         <button id="mobileMenuBtn"
-                            class="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors focus:outline-none">
+                            class="md:hidden p-2 rounded-lg text-gray-300 hover:bg-white/10 transition-colors focus:outline-none">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
                     </div>
@@ -154,179 +257,269 @@
             </div>
 
             <div id="mobileMenu"
-                class="md:hidden hidden bg-white border-t border-gray-200 absolute top-16 left-0 w-full shadow-lg h-[calc(100vh-4rem)] overflow-y-auto z-40 pb-20">
-                <div class="px-4 py-4 space-y-4">
+                class="md:hidden hidden bg-darker/95 backdrop-blur-xl border-t border-white/10 absolute top-20 left-0 w-full h-[calc(100vh-5rem)] overflow-y-auto z-40 pb-20 animate-fade-in">
+                <div class="p-4 space-y-2">
                     <div id="mobileUserInfo"
-                        class="flex items-center justify-between bg-blue-50 p-3 rounded-xl border border-blue-100">
-                        <span class="font-semibold text-primary text-sm flex items-center"><i
-                                class="fas fa-user mr-2"></i> User</span>
+                        class="flex items-center justify-between bg-surface/50 p-4 rounded-xl border border-white/5 mb-6">
+                        <div class="flex items-center">
+                            <div
+                                class="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-3">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-gray-400 uppercase tracking-widest">Candidate</span>
+                                <span class="font-semibold text-white">User</span>
+                            </div>
+                        </div>
                         <button onclick="document.getElementById('logoutBtn').click()"
-                            class="text-xs bg-red-500 text-white px-3 py-1.5 rounded shadow-sm">Logout</button>
+                            class="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1.5 rounded-lg hover:bg-red-500/20 transition-colors">Logout</button>
                     </div>
 
                     <a href="#" onclick="showHome()"
-                        class="block py-3 px-4 rounded-xl hover:bg-blue-50 font-medium text-gray-800">Home</a>
+                        class="block py-3 px-4 rounded-xl bg-white/5 text-white font-medium border border-white/5">Home
+                        Dashboard</a>
 
-                    <details class="group">
-                        <summary
-                            class="py-3 px-4 cursor-pointer font-medium flex items-center justify-between rounded-xl hover:bg-blue-50 text-gray-800 select-none">
-                            Prelims Test Series <i
-                                class="fas fa-chevron-down transition-transform group-open:rotate-180 text-sm"></i>
-                        </summary>
-                        <div class="mt-1 ml-2 space-y-1 border-l-2 border-gray-100 pl-2">
-                            <a href="#" onclick="openSeriesPage(event, 'gs-score')"
-                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">GS
-                                Score Prelims</a>
+                    <div class="pt-4 pb-2">
+                        <p class="px-4 text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Test Series</p>
+                        <details class="group">
+                            <summary
+                                class="py-3 px-4 cursor-pointer font-medium flex items-center justify-between rounded-xl text-gray-300 hover:bg-white/5 select-none transition-colors">
+                                Prelims Tests <i
+                                    class="fas fa-chevron-down transition-transform group-open:rotate-180 text-xs"></i>
+                            </summary>
+                            <div class="mt-2 space-y-1 pl-4 border-l border-white/10 ml-4">
+                                <a href="#" onclick="openSeriesPage(event, 'vision-ias')"
+                                    class="block py-2 px-4 text-sm text-primary font-medium hover:bg-white/5 rounded-lg">Vision
+                                    IAS</a>
+                                <a href="#" onclick="openSeriesPage(event, 'gs-score')"
+                                    class="block py-2 px-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg">GS
+                                    Score</a>
+                                <a href="#" onclick="openSeriesPage(event, 'next-ias')"
+                                    class="block py-2 px-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg">Next
+                                    IAS</a>
+                                <a href="#" onclick="openSeriesPage(event, 'only-ias')"
+                                    class="block py-2 px-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg">Only
+                                    IAS</a>
+                                <a href="#" onclick="openSeriesPage(event, 'shankar-ias')"
+                                    class="block py-2 px-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg">Shankar
+                                    IAS</a>
+                            </div>
+                        </details>
 
-                            <a href="#" onclick="openSeriesPage(event, 'next-ias')"
-                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">Next
-                                IAS Prelims</a>
-                            <a href="#" onclick="openSeriesPage(event, 'only-ias')"
-                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">Only
-                                IAS Prelims Test</a>
-                            <a href="#" onclick="openSeriesPage(event, 'shankar-ias')"
-                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">Shankar
-                                IAS Prelims Test</a>
-                            <a href="#" onclick="openSeriesPage(event, 'vision-ias')"
-                                class="block py-2.5 px-4 text-sm font-semibold text-primary bg-blue-50 rounded-r-lg">Vision
-                                IAS Prelims</a>
-                        </div>
-                    </details>
-
-                    <details class="group">
-                        <summary
-                            class="py-3 px-4 cursor-pointer font-medium flex items-center justify-between rounded-xl hover:bg-blue-50 text-gray-800 select-none">
-                            Mains Test Series <i
-                                class="fas fa-chevron-down transition-transform group-open:rotate-180 text-sm"></i>
-                        </summary>
-                        <div class="mt-1 ml-2 space-y-1 border-l-2 border-gray-100 pl-2">
-                            <a href="#"
-                                class="block py-2.5 px-4 text-sm text-gray-600 hover:text-primary rounded-lg active:bg-blue-50">Vision
-                                IAS Mains</a>
-                        </div>
-                    </details>
+                        <details class="group mt-2">
+                            <summary
+                                class="py-3 px-4 cursor-pointer font-medium flex items-center justify-between rounded-xl text-gray-300 hover:bg-white/5 select-none transition-colors">
+                                Mains Tests <i
+                                    class="fas fa-chevron-down transition-transform group-open:rotate-180 text-xs"></i>
+                            </summary>
+                            <div class="mt-2 space-y-1 pl-4 border-l border-white/10 ml-4">
+                                <a href="#"
+                                    class="block py-2 px-4 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-lg">Vision
+                                    IAS Mains</a>
+                            </div>
+                        </details>
+                    </div>
                 </div>
             </div>
         </nav>
 
-        <div id="contentWrapper" class="flex-grow w-full">
+        <div id="contentWrapper" class="flex-grow w-full relative z-0">
 
-            <div id="homePage" class="w-full">
-                <section
-                    class="relative pt-8 pb-12 md:pt-24 md:pb-20 bg-gradient-to-b from-blue-600 to-primary overflow-hidden">
+            <div id="homePage" class="w-full animate-fade-in">
+                <section class="relative pt-10 pb-20 overflow-hidden">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                        <div class="text-center mb-8 md:mb-12">
-                            <h2 class="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">Welcome to
-                                Premium UPSC Preparation</h2>
-                            <p class="text-sm md:text-xl text-blue-100 max-w-2xl mx-auto px-2">Access 200+ Premium Test
-                                Series, Monthly Magazines & Current Affairs</p>
+                        <div class="text-center mb-12">
+                            <span
+                                class="inline-block py-1 px-3 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4">
+                                Updated for 2026-27 Cycle
+                            </span>
+                            <h2 class="text-4xl md:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+                                Master the <span
+                                    class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-yellow-200">Civil
+                                    Services</span>
+                            </h2>
+                            <p class="text-lg text-gray-400 max-w-2xl mx-auto font-light">
+                                Access the most comprehensive library of premium test series, curated current affairs,
+                                and expert analysis in one focused environment.
+                            </p>
                         </div>
 
                         <div
-                            class="max-w-5xl mx-auto relative h-56 md:h-80 lg:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20">
+                            class="max-w-5xl mx-auto relative h-64 md:h-[450px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
+                            <div
+                                class="absolute inset-0 z-20 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.6)]">
+                            </div>
+
                             <div id="carousel"
-                                class="w-full h-full flex transition-transform duration-1000 ease-in-out transform translate-x-0">
+                                class="w-full h-full flex transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1)">
                                 <div class="flex w-[300%] h-full">
                                     <div class="w-1/3 flex-shrink-0 relative">
-                                        <img src="1.jpg" alt="Prelims"
-                                            class="absolute inset-0 w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                            <div class="text-center text-white p-2">
-                                                <i class="fas fa-file-alt text-4xl md:text-6xl mb-2 md:mb-4"></i>
-                                                <h3 class="text-xl md:text-3xl font-bold">Prelims Series</h3>
+                                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                                            alt="Prelims"
+                                            class="absolute inset-0 w-full h-full object-cover opacity-60">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-darker via-darker/60 to-transparent flex items-end justify-center pb-12 md:pb-20">
+                                            <div class="text-center text-white p-4">
+                                                <i class="fas fa-scroll text-4xl md:text-5xl mb-4 text-primary"></i>
+                                                <h3 class="text-2xl md:text-4xl font-serif font-bold mb-2">Prelims Test
+                                                    Series</h3>
+                                                <p class="text-sm md:text-base text-gray-300">200+ Mock Tests from Top
+                                                    Institutes</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="w-1/3 flex-shrink-0 relative">
-                                        <img src="2.jpg" alt="Mains"
-                                            class="absolute inset-0 w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                            <div class="text-center text-white p-2">
-                                                <i class="fas fa-edit text-4xl md:text-6xl mb-2 md:mb-4"></i>
-                                                <h3 class="text-xl md:text-3xl font-bold">Mains Series</h3>
+                                        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                                            alt="Mains" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-darker via-darker/60 to-transparent flex items-end justify-center pb-12 md:pb-20">
+                                            <div class="text-center text-white p-4">
+                                                <i class="fas fa-pen-fancy text-4xl md:text-5xl mb-4 text-primary"></i>
+                                                <h3 class="text-2xl md:text-4xl font-serif font-bold mb-2">Mains Answer
+                                                    Writing</h3>
+                                                <p class="text-sm md:text-base text-gray-300">Model Answers & Evaluation
+                                                    Criteria</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="w-1/3 flex-shrink-0 relative">
-                                        <img src="3.jpg" alt="CA" class="absolute inset-0 w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                            <div class="text-center text-white p-2">
-                                                <i class="fas fa-newspaper text-4xl md:text-6xl mb-2 md:mb-4"></i>
-                                                <h3 class="text-xl md:text-3xl font-bold">Current Affairs</h3>
+                                        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                                            alt="CA" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-darker via-darker/60 to-transparent flex items-end justify-center pb-12 md:pb-20">
+                                            <div class="text-center text-white p-4">
+                                                <i class="fas fa-globe-asia text-4xl md:text-5xl mb-4 text-primary"></i>
+                                                <h3 class="text-2xl md:text-4xl font-serif font-bold mb-2">Current
+                                                    Affairs</h3>
+                                                <p class="text-sm md:text-base text-gray-300">Monthly Magazines &
+                                                    Analysis</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <button id="prevBtn"
-                                class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 md:p-4 rounded-full"><i
-                                    class="fas fa-chevron-left"></i></button>
+                                class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 text-white backdrop-blur-sm border border-white/10 hover:bg-primary hover:border-primary transition-all z-30 flex items-center justify-center group-hover:opacity-100 opacity-0 md:opacity-100">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
                             <button id="nextBtn"
-                                class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white p-2 md:p-4 rounded-full"><i
-                                    class="fas fa-chevron-right"></i></button>
-                            <div id="carouselDots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                            </div>
+                                class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 text-white backdrop-blur-sm border border-white/10 hover:bg-primary hover:border-primary transition-all z-30 flex items-center justify-center group-hover:opacity-100 opacity-0 md:opacity-100">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <div id="carouselDots"
+                                class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-30"></div>
                         </div>
                     </div>
                 </section>
 
-                <section class="py-12 md:py-20 bg-white">
+                <section class="py-12 relative">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex items-center justify-between mb-8">
+                            <h3 class="text-2xl font-serif font-bold text-white">Featured Collections</h3>
+                            <div class="h-px bg-white/10 flex-grow ml-6"></div>
+                        </div>
+
                         <div class="grid md:grid-cols-3 gap-6">
-                            <div class="text-center p-6 rounded-2xl bg-blue-50 border border-blue-100">
-                                <i class="fas fa-brain text-3xl text-primary mb-4 block"></i>
-                                <h3 class="text-xl font-bold mb-2">Prelims</h3>
-                                <p class="text-gray-600 mb-4 text-sm">200+ tests from Top Institutes</p>
+                            <div
+                                class="glass-card p-8 rounded-2xl hover:-translate-y-1 transition-transform duration-300 group">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:bg-blue-500/20 transition-colors">
+                                    <i class="fas fa-brain text-3xl text-blue-400"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-2">Prelims 2026</h3>
+                                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Systematic mock tests covering GS
+                                    & CSAT. Access vision IAS, Forum IAS & more.</p>
                                 <button onclick="openSeriesPage(event, 'vision-ias')"
-                                    class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-semibold w-full">View
-                                    Vision IAS</button>
+                                    class="w-full py-3 rounded-lg border border-white/10 text-sm font-semibold text-white hover:bg-blue-600 hover:border-transparent transition-all">
+                                    View Vision IAS <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                                </button>
                             </div>
-                            <div class="text-center p-6 rounded-2xl bg-emerald-50 border border-emerald-100">
-                                <i class="fas fa-pen-fancy text-3xl text-emerald-600 mb-4 block"></i>
-                                <h3 class="text-xl font-bold mb-2">Mains</h3>
-                                <p class="text-gray-600 mb-4 text-sm">Answer writing & evaluation</p>
+
+                            <div
+                                class="glass-card p-8 rounded-2xl hover:-translate-y-1 transition-transform duration-300 group">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6 group-hover:bg-emerald-500/20 transition-colors">
+                                    <i class="fas fa-pen-nib text-3xl text-emerald-400"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-2">Mains 2026</h3>
+                                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Improve answer writing skills with
+                                    model answers and topper copies evaluation.</p>
                                 <button
-                                    class="bg-emerald-600 text-white px-6 py-2 rounded-lg text-sm font-semibold w-full">View</button>
+                                    class="w-full py-3 rounded-lg border border-white/10 text-sm font-semibold text-white hover:bg-emerald-600 hover:border-transparent transition-all">
+                                    Explore Mains <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                                </button>
                             </div>
-                            <div class="text-center p-6 rounded-2xl bg-purple-50 border border-purple-100">
-                                <i class="fas fa-book-open text-3xl text-purple-600 mb-4 block"></i>
-                                <h3 class="text-xl font-bold mb-2">Magazines</h3>
-                                <p class="text-gray-600 mb-4 text-sm">Yojana, Kurukshetra & More</p>
+
+                            <div
+                                class="glass-card p-8 rounded-2xl hover:-translate-y-1 transition-transform duration-300 group">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 group-hover:bg-purple-500/20 transition-colors">
+                                    <i class="fas fa-book-open text-3xl text-purple-400"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-2">Magazines</h3>
+                                <p class="text-gray-400 mb-6 text-sm leading-relaxed">Monthly compilations of Yojana,
+                                    Kurukshetra, and Down to Earth.</p>
                                 <button
-                                    class="bg-purple-600 text-white px-6 py-2 rounded-lg text-sm font-semibold w-full">View</button>
+                                    class="w-full py-3 rounded-lg border border-white/10 text-sm font-semibold text-white hover:bg-purple-600 hover:border-transparent transition-all">
+                                    Read Magazines <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
 
-            <div id="genericSeriesPage" class="hidden pt-6 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                <div class="mb-6 md:mb-8">
+            <div id="genericSeriesPage"
+                class="hidden pt-8 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full animate-fade-in">
+                <div class="mb-10">
                     <button onclick="showHome()"
-                        class="flex items-center text-gray-500 hover:text-primary mb-4 transition-colors text-sm font-medium">
-                        <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                        class="flex items-center text-gray-400 hover:text-white mb-6 transition-colors text-sm font-medium group">
+                        <div
+                            class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center mr-3 group-hover:bg-primary group-hover:text-white transition-all">
+                            <i class="fas fa-arrow-left"></i>
+                        </div>
+                        Back to Dashboard
                     </button>
-                    <h2 id="seriesTitle"
-                        class="text-2xl md:text-3xl font-bold text-gray-800 border-l-4 border-primary pl-4 leading-tight">
-                        Test Series Title</h2>
-                    <p id="seriesDesc" class="text-gray-600 mt-2 pl-5 text-sm md:text-base">Description</p>
+
+                    <div
+                        class="flex flex-col md:flex-row md:items-end md:justify-between border-b border-white/10 pb-6">
+                        <div>
+                            <h2 id="seriesTitle"
+                                class="text-3xl md:text-4xl font-serif font-bold text-white leading-tight">Test Series
+                                Title</h2>
+                            <p id="seriesDesc" class="text-gray-400 mt-3 text-lg font-light">Description</p>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <span
+                                class="text-xs font-bold text-primary uppercase tracking-widest border border-primary/30 py-1 px-3 rounded-full bg-primary/5">Premium
+                                Access</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="seriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div id="seriesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 </div>
             </div>
 
         </div>
 
-        <footer class="bg-gray-900 text-white py-8 md:py-12 mt-auto">
-            <div class="max-w-7xl mx-auto px-4 text-center">
-                <p class="text-gray-400 text-xs md:text-sm">&copy; 2025 UPSC Premium Portal. All rights reserved.</p>
+        <footer class="border-t border-white/5 bg-darker py-10 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
+                <div
+                    class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4 opacity-80">
+                    <span class="text-white font-serif font-bold text-xl">UE</span>
+                </div>
+                <p class="text-gray-500 text-xs md:text-sm text-center">
+                    &copy; 2025 UPSC Premium Portal. Content is for educational purposes.<br>
+                    <span class="opacity-50">Designed for Aspirants.</span>
+                </p>
             </div>
         </footer>
     </div>
 
     <button id="backToTop"
-        class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg z-30 hidden flex items-center justify-center">
+        class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-white rounded-full shadow-lg shadow-primary/30 z-30 hidden flex items-center justify-center hover:-translate-y-1 transition-all">
         <i class="fas fa-arrow-up"></i>
     </button>
 
@@ -393,22 +586,26 @@
             seriesGrid.innerHTML = '';
             testsArray.forEach(test => {
                 const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 flex flex-col justify-between";
+                // UPDATED STYLING: Changed classes to match Dark Theme (glass-card, text-white, etc.)
+                card.className = "glass-card p-6 rounded-xl hover:bg-white/5 transition-all duration-300 flex flex-col justify-between group border border-white/5";
 
                 const linkUrl = test.link || '#';
                 const author = test.author || 'Admin';
 
                 card.innerHTML = `
                     <div>
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="bg-blue-50 text-primary text-[10px] md:text-xs font-bold px-2 py-1 rounded-full uppercase tracking-wider">${test.id}</span>
-                            <span class="text-gray-400 text-[10px] md:text-xs"><i class="far fa-calendar-alt mr-1"></i> ${test.date}</span>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-primary/10 border border-primary/20 text-primary text-[10px] md:text-xs font-bold px-2.5 py-1 rounded text-center uppercase tracking-wider min-w-[3rem]">${test.id}</span>
+                            <span class="text-gray-500 text-[10px] md:text-xs flex items-center bg-black/20 px-2 py-1 rounded"><i class="far fa-calendar-alt mr-1.5"></i> ${test.date}</span>
                         </div>
-                        <h3 class="text-base md:text-lg font-bold text-gray-800 mb-2 leading-snug">${test.title}</h3>
-                        <p class="text-gray-500 text-xs mb-4">By: ${author}</p>
+                        <h3 class="text-base md:text-lg font-bold text-gray-100 mb-2 leading-snug group-hover:text-primary transition-colors">${test.title}</h3>
+                        <div class="flex items-center mb-6">
+                            <div class="w-5 h-5 rounded-full bg-gray-700 flex items-center justify-center text-[10px] text-gray-400 mr-2"><i class="fas fa-pen"></i></div>
+                            <p class="text-gray-500 text-xs">By: ${author}</p>
+                        </div>
                     </div>
-                    <a href="${linkUrl}" class="w-full block text-center bg-gradient-to-r from-primary to-secondary text-white text-sm font-semibold py-2.5 rounded-lg hover:shadow-lg active:scale-95 transition-all">
-                        Download PDF <i class="fas fa-download ml-2"></i>
+                    <a href="${linkUrl}" class="w-full flex items-center justify-center bg-white/5 hover:bg-primary text-gray-300 hover:text-white border border-white/10 hover:border-transparent text-sm font-semibold py-3 rounded-lg transition-all group-hover:shadow-lg group-hover:shadow-primary/20">
+                        Download PDF <i class="fas fa-download ml-2 text-xs"></i>
                     </a>
                 `;
                 seriesGrid.appendChild(card);
@@ -432,7 +629,7 @@
                 mainApp.classList.remove('hidden');
                 welcomeMsg.textContent = studentName;
                 if (mobileUserInfo) {
-                    mobileUserInfo.querySelector('span').innerHTML = `<i class="fas fa-user mr-2"></i> ${studentName}`;
+                    mobileUserInfo.querySelector('span').innerHTML = `${studentName}`;
                 }
                 userInfo.classList.remove('hidden');
             }
@@ -444,16 +641,13 @@
             const password = passwordInput.value.trim();
             const studentName = studentNameInput.value.trim();
 
-            // Check if CREDENTIALS exists (from external data.js)
             if (typeof CREDENTIALS === 'undefined') {
                 alert("Database error: CREDENTIALS not loaded.");
                 return;
             }
 
-            // --- CHANGED LOGIC FOR NEW CREDENTIALS STRUCTURE ---
             let isAuthenticated = false;
 
-            // Check if username exists in CREDENTIALS and password matches
             if (CREDENTIALS.hasOwnProperty(username) && CREDENTIALS[username] === password) {
                 isAuthenticated = true;
             }
@@ -461,11 +655,18 @@
             if (isAuthenticated && studentName) {
                 localStorage.setItem('studentName', studentName);
                 localStorage.setItem('isLoggedIn', 'true');
-                loginScreen.classList.add('hidden');
-                mainApp.classList.remove('hidden');
+
+                // Fade out animation for login screen
+                loginScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loginScreen.classList.add('hidden');
+                    loginScreen.style.opacity = '1';
+                    mainApp.classList.remove('hidden');
+                }, 500);
+
                 welcomeMsg.textContent = studentName;
                 if (mobileUserInfo) {
-                    mobileUserInfo.querySelector('span').innerHTML = `<i class="fas fa-user mr-2"></i> ${studentName}`;
+                    mobileUserInfo.querySelector('span').innerHTML = `${studentName}`;
                 }
                 userInfo.classList.remove('hidden');
             } else {
@@ -505,7 +706,8 @@
 
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
-            dot.className = `w-2 h-2 md:w-3 md:h-3 rounded-full cursor-pointer transition-all duration-300 ${i === 0 ? 'bg-white w-6 md:w-8' : 'bg-white/50'}`;
+            // Updated Dot Styling
+            dot.className = `h-1.5 rounded-full cursor-pointer transition-all duration-300 ${i === 0 ? 'bg-primary w-8' : 'bg-white/30 w-4 hover:bg-white/50'}`;
             dot.addEventListener('click', () => { currentSlide = i; updateCarousel(); });
             dotsContainer.appendChild(dot);
         }
@@ -516,11 +718,11 @@
             const dots = dotsContainer.children;
             for (let i = 0; i < dots.length; i++) {
                 if (i === currentSlide) {
-                    dots[i].classList.remove('bg-white/50');
-                    dots[i].classList.add('bg-white', 'w-6', 'md:w-8');
+                    dots[i].classList.remove('bg-white/30', 'w-4');
+                    dots[i].classList.add('bg-primary', 'w-8');
                 } else {
-                    dots[i].classList.add('bg-white/50');
-                    dots[i].classList.remove('bg-white', 'w-6', 'md:w-8');
+                    dots[i].classList.add('bg-white/30', 'w-4');
+                    dots[i].classList.remove('bg-primary', 'w-8');
                 }
             }
         }
@@ -531,8 +733,8 @@
         prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
         nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
 
-        let timer = setInterval(nextSlide, 4000);
-        function resetTimer() { clearInterval(timer); timer = setInterval(nextSlide, 4000); }
+        let timer = setInterval(nextSlide, 5000); // Slowed down slightly for premium feel
+        function resetTimer() { clearInterval(timer); timer = setInterval(nextSlide, 5000); }
 
         // Touch Swipe
         let touchStartX = 0;

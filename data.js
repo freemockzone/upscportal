@@ -234,6 +234,12 @@ const testSeriesDatabase = {
         title: "Shankar IAS Prelims 2026 Test 1 With Solution PDF",
         link: "Shankar-IAS-Prelims-2026-Test-1-With-Solution-PDF.pdf",
       },
+      {
+        id: "2",
+        date: "26th Dec 2025",
+        title: "Shankar IAS Prelims 2026 Test 2 With Solution PDF",
+        link: "Shankar-IAS-Prelims-2026-Test-2-With-Solution-PDF.pdf",
+      },
     ],
   },
 
