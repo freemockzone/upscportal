@@ -7,6 +7,8 @@ const CREDENTIALS = {
   Jio: "789",
   YaminArora: "YaminA008!",
   Dhruvv: "Upsc@1234",
+  Negi: "LN@123",
+  Kr_Pallaw: "Chegg@123",
 };
 
 // --- TEST SERIES DATABASE ---
