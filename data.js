@@ -9,6 +9,9 @@ const CREDENTIALS = {
   Dhruvv: "Upsc@1234",
   Negi: "LN@123",
   Kr_Pallaw: "Chegg@123",
+  Thiru: "Thiru@5423",
+  Kunal: "Kunal@0427",
+  Deemati: "Mknjsd@39",
 };
 
 // --- TEST SERIES DATABASE ---
